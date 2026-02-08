@@ -19,9 +19,18 @@
 *.tar.gz
 *.rar
 
+# IDE specific files
+.idea/
+*.iml
+*.ipr
+
+# Maven
+target/
+
+#NoGitHub files
+NoGitHub/
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
-!/NoGitHub/
-!/src/main/java/de/jinteg/ti/testing/
-/NoGitHub/AI-Thread-Ideas.md
+
