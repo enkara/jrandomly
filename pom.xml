@@ -8,13 +8,14 @@
     <groupId>de.jinteg.jrandomly</groupId>
     <artifactId>jrandomly-testdata</artifactId>
     <version>0.1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
     <name>JRandomly-Testdata</name>
     <description>Reproducible random and locale-aware test data generator for Java (Java 21+).</description>
     <url>https://github.com/enkara/jrandomly-testdata</url>
-    <packaging>jar</packaging>
 
     <organization>
-        <name>Jinteg(R)</name>
+        <name>Jinteg®</name>
         <url>https://www.jinteg.de</url>
     </organization>
 
@@ -26,37 +27,33 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <id>enkara</id>
+            <name>Nihat Kara</name>
+            <email>opensource@jinteg.de</email>
+            <organization>Jinteg®</organization>
+            <organizationUrl>https://www.jinteg.de</organizationUrl>
+        </developer>
+    </developers>
+
+    <!-- Required by Maven Central -->
+    <scm>
+        <connection>scm:git:https://github.com/enkara/jrandomly-testdata.git</connection>
+        <developerConnection>scm:git:https://github.com/enkara/jrandomly-testdata.git</developerConnection>
+        <url>https://github.com/enkara/jrandomly-testdata</url>
+        <tag>HEAD</tag>
+    </scm>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>21</maven.compiler.release>
 
         <junit.jupiter.version>5.12.0</junit.jupiter.version>
         <assertj.version>3.27.7</assertj.version>
-
-        <commons.lang3.version>3.18.0</commons.lang3.version>
-        <guava.version>33.0.0-jre</guava.version>
-        <javafaker.version>1.0.2</javafaker.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons.lang3.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.javafaker</groupId>
-            <artifactId>javafaker</artifactId>
-            <version>${javafaker.version}</version>
-        </dependency>
-
         <!-- Test -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -64,6 +61,7 @@
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
@@ -72,16 +70,80 @@
         </dependency>
     </dependencies>
 
+    <!-- Deployment to OSSRH -->
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
     <build>
         <plugins>
+
+            <!-- Sources -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.2</version>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Javadoc -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.3</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- GPG Signing -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Sonatype Staging -->
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.13</version>
+                <extensions>true</extensions>
                 <configuration>
-                    <useModulePath>false</useModulePath>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 

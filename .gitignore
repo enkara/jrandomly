@@ -27,8 +27,11 @@
 # Maven
 target/
 
-#NoGitHub files
+#Igoner custom files/folders
 NoGitHub/
+*.asc
+*.gpg
+
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*

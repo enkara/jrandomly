@@ -2,6 +2,7 @@
 
 **Status:** Accepted  
 **Date:** 2026-02-06
+**Updated:** 2026-02-15 — added auto-generated root seed (Section 5)
 
 ## Context
 
@@ -64,7 +65,24 @@ Where:
 - Under a root seed, `randomly()` may use a derived instance seed, but **it is not guaranteed to be stable across parallel runs** if the derivation depends on instance creation order.
 - Therefore, for parallel-stable determinism, `scoped(scope)` is the recommended API.
 
-**Rationale:** Keep the “just works” experience, while providing a robust parallel-safe option.
+**Rationale:** Keep the "just works" experience, while providing a robust parallel-safe option.
+
+### 5) Auto-generated root seed when none is provided externally
+
+When no root seed is provided via system property or environment variable, `JRandomly` **generates a random root seed once per JVM lifetime** and caches it in a static holder.
+
+- The auto-generated seed is computed from runtime entropy (`System.nanoTime()`), mixed via `SeedDerivation.seedFromEntropy(...)`.
+- All subsequent calls to `randomly()` and `scoped(scope)` derive their instance seeds from this cached root seed — exactly the same way as if the seed had been provided externally.
+- The auto-generated root seed appears in `replayInfo()` and in the replay file, so **every run is reproducible after the fact**: users copy the logged seed and pass it as `-Djrandomly.seed=...` to replay the entire run.
+
+**Consequences:**
+
+- `rootSeed` in `JRandomlyConfig` remains an `Optional<Long>` (reflecting what the user *provided*).
+- `JRandomly` resolves this to an *effective* root seed: either the external value or the auto-generated one.
+- `replayInfo()` always outputs the effective root seed — no more branching between root seed and instance seed.
+- `ConfigLoader` stays unchanged: it reads external configuration only and does not manage seed lifecycle.
+
+**Rationale:** This eliminates the split behavior between "seeded run" and "unseeded run." Every run has a root seed; the only difference is whether the user provided it or JRandomly generated it. Replay is always possible.
 
 ## Consequences
 
