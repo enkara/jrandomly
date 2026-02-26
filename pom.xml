@@ -10,9 +10,9 @@
     <version>0.1.0</version>
     <packaging>jar</packaging>
 
-    <name>JRandomly-Testdata</name>
+    <name>JRandomly</name>
     <description>Reproducible random and locale-aware test data generator for Java (Java 21+).</description>
-    <url>https://github.com/enkara/jrandomly-testdata</url>
+    <url>https://github.com/Jinteg/jrandomly</url>
 
     <organization>
         <name>Jinteg®</name>
@@ -39,9 +39,9 @@
 
     <!-- Required by Maven Central -->
     <scm>
-        <connection>scm:git:https://github.com/enkara/jrandomly-testdata.git</connection>
-        <developerConnection>scm:git:https://github.com/enkara/jrandomly-testdata.git</developerConnection>
-        <url>https://github.com/enkara/jrandomly-testdata</url>
+        <connection>scm:git:https://github.com/Jinteg/jrandomly.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:Jinteg/jrandomly.git</developerConnection>
+        <url>https://github.com/Jinteg/jrandomly</url>
         <tag>HEAD</tag>
     </scm>
 
