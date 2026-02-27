@@ -4,7 +4,7 @@ Reproducible, random and locale-aware test data generator for Java 21+.
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Java](https://img.shields.io/badge/Java-21%2B-orange.svg)]()
-
+[![MvnRepository](https://badges.mvnrepository.com/badge/de.jinteg.jrandomly/jrandomly-testdata/badge.svg?label=MvnRepository&color=green)](https://mvnrepository.com/artifact/de.jinteg.jrandomly/jrandomly-testdata)
 ---
 
 ## Features
